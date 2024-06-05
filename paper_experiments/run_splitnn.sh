@@ -1,7 +1,7 @@
 #!/bin/bash
 
-local_dir="path_to_paper_experiments"  # e.g. C:/Data/Projects/FedProM/Experiments/VFLBench/paper_experiments
-image_name="secretflow"
+local_dir="path_to_paper_experiments"
+image_name="vflbench"
 
 # Test method
 method="splitnn"

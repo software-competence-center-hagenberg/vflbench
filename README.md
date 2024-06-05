@@ -1,7 +1,8 @@
-# VFLBench: A Practical Benchmark for Vertical Federated Learning
+# VFLBench
 
 ---
-VFLBench is a practical benchmarking framework for vertical federated learning.
+Repository containing scripts supporting the manuscript "VFLBench: A Practical Benchmark for Vertical
+Federated Learning in Smart Manufacturing", submitted to 19th International Conference on Computer Aided Systems Theory (Eurocast 2024).
 
 
 ## Datasets
@@ -10,14 +11,16 @@ VFLBench is a practical benchmarking framework for vertical federated learning.
 
 1. Hydraulic System I (HySys I)
 
-    This dataset was obtained experimentally using a hydraulic test rig \cite{helwig2015}, 
+    This dataset was obtained experimentally using a hydraulic test rig, 
     which consists of two circuits interconnected via an oil tank. The system operates by
     cyclically repeating constant load cycles, during which various process values are
     measured. The aim is to develop a regression model for predicting valve conditions.
     To replicate a vertical setup, the features are divided into two blocks based on the
-    rig's configuration \cite{helwig2015}, with each block assigned to a different data holder.
-    Folllowing data split, feature reduction was applied separately to each data holder's
+    rig's configuration, with each block assigned to a different data holder.
+    Following data split, feature reduction was applied separately to each data holder's
     private data to reduce the number of features.
+
+    Source: [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/dataset/447/condition+monitoring+of+hydraulic+systems)
 
 
 2. Hydraulic System II (HySys II)
@@ -25,19 +28,24 @@ VFLBench is a practical benchmarking framework for vertical federated learning.
    Derived from the same source as HySyS I, this dataset has the same feature split.
    However, the task is different: to predict the stable flag, which is binary.
 
+    Source: [UC Irvine Machine Learning Repository](https://archive.ics.uci.edu/dataset/447/condition+monitoring+of+hydraulic+systems)
+
 
 3. Steel Fatigue Strength (SFS)
     
     This dataset includes various experimental conditions during steel preparation, 
-    such as chemical composition, upstream processing details, and heat treatment \cite{agrawal2014exploration}.
+    such as chemical composition, upstream processing details, and heat treatment.
     The target variable is fatigue strength. Features are vertically divided into two blocks and allocated to
     two hypothetical data holders: the first block contains chemical composition and upstream details,
     while the second block includes heat treatment information.
 
+    Source: [Kaggle](https://www.kaggle.com/datasets/chaozhuang/steel-fatigue-strength-prediction/data)
+
+
 
 4. Simulated Multistage Process (SMP)
 
-    This synthetic dataset is generated using a multistage process simulator \cite{nguyen2024p3ls}. It emulates a
+    This synthetic dataset is generated using a multistage process simulator. It emulates a
     three-stage process, assuming that three distinct manufacturing companies control and possess data from each specific stage.
     The primary goal of the data federation is to construct a predictive model for the output quality of the final stage.
 

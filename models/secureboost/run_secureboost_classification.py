@@ -109,7 +109,7 @@ params["learning_rate"] = 0.1
 params["rowsample_by_tree"] = 0.8
 params["colsample_bytree"] = 0.8
 params["max_depth"] = 3
-params["objective"] = "linear"
+params["objective"] = "logistic"
 # pp.pprint(params)
 
 # Run Sgb
