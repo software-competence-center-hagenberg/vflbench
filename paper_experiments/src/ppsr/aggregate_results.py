@@ -11,18 +11,18 @@ parser.add_argument("--dataset", "-d", help="Dataset name")
 parser.add_argument("--n_runs", "-nr", help="Run no.")
 args = parser.parse_args()
 
-# ind_result_dir = args.ind_result_dir
-# merged_result_dir = args.merged_result_dir
-# method = args.method
-# dataset = args.dataset
-# n_runs = int(args.n_runs)
+ind_result_dir = args.ind_result_dir
+merged_result_dir = args.merged_result_dir
+method = args.method
+dataset = args.dataset
+n_runs = int(args.n_runs)
 
-# Test
-ind_result_dir = "C:/Data/Projects/FedProM/Experiments/VFLBench/paper_experiments/results/ppsr_runs"
-merged_result_dir = "C:/Data/Projects/FedProM/Experiments/VFLBench/paper_experiments/results"
-method = "ppsr"
-dataset = "smp"
-n_runs = 20
+# # Test
+# ind_result_dir = "../../results/ppsr_runs"
+# merged_result_dir = "../../results"
+# method = "ppsr"
+# dataset = "smp"
+# n_runs = 20
 
 
 # Aggregate results from individual runs into a single file

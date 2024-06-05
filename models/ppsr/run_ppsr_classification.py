@@ -139,8 +139,7 @@ toolbox.register("compile", gp.compile, pset=pset)
 # Define the fitness function
 def evalSymbReg(individual):
     # Convert String to Sympy
-    func = sp.expand(sp.sympify(str(individual), locals=converter))
-    # func = sp.sympify(str(individual), locals=converter)
+    func = sp.sympify(str(individual), locals=converter)
 
     # Convert Sympy to Jax
     f, params = sympy2jax(func, [globals()["x_{}".format(j + 1)] for j in range(n_features)])
@@ -169,7 +168,7 @@ def evalSymbReg(individual):
 # Make predictions
 def make_predictions(solution):
     # Convert String to Sympy
-    func = sp.expand(sp.sympify(solution, locals=converter))
+    func = sp.sympify(solution, locals=converter)
 
     # Convert Sympy to Jax
     f, params = sympy2jax(func, [globals()["x_{}".format(j + 1)] for j in range(n_features)])
