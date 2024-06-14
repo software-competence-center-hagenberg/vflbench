@@ -48,16 +48,7 @@ spu = sf.SPU(spu_config)
 # print(spu_config)
 
 # Load data
-data_version = "v4"
-data_source = "natural_split_datasets"
-dataset_name = "hysys_i"
-fed_data = load_data(data_version, data_source, dataset_name)
-cross_valid_data = fed_data["cross_valid_data"]
-n_clients = fed_data["num_parties"]
-task = fed_data["task"]
-method_name = "ppsr"
-
-Xs_train, y_train, Xs_test, y_test = cross_valid_data[0]
+# Read Xs_train, y_train, Xs_test, y_test
 
 
 # Scale data
@@ -240,6 +231,4 @@ results = {"rmse_list": rmse_list,
            "r2_list": r2_list
            }
 
-save_pickle(results,
-            "vflbench/results_{}/{}/fed_models/ppsr/{}_{}_run_{}.pkl".format(data_version, data_source, method_name,
-                                                                             dataset_name, run_no))
+# Save results

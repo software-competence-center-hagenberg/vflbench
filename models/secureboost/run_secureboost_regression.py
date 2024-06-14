@@ -8,10 +8,9 @@ import numpy as np
 import secretflow as sf
 from secretflow.data import FedNdarray, PartitionWay
 from secretflow.device.driver import reveal, wait
-from secretflow.ml.boost.sgb_v import Sgb, get_classic_XGB_params, get_classic_lightGBM_params
+from secretflow.ml.boost.sgb_v import Sgb, get_classic_XGB_params
 from secretflow.ml.boost.sgb_v.model import load_model
 from sklearn.metrics import mean_squared_error, r2_score
-from utils import load_data, save_pickle
 
 # Set random seed
 RANDOM_SEED = 1309
@@ -19,16 +18,7 @@ random.seed(RANDOM_SEED)
 np.random.seed(RANDOM_SEED)
 
 # Load data
-data_version = "v4"
-data_source = "natural_split_datasets"
-dataset_name = "hysys_i"
-fed_data = load_data(data_version, data_source, dataset_name)
-cross_valid_data = fed_data["cross_valid_data"]
-n_clients = fed_data["num_parties"]
-task = fed_data["task"]
-method_name = "secureboost"
-
-Xs_train, y_train_pt, Xs_test, y_test_pt = cross_valid_data[0]
+# Read Xs_train, y_train, Xs_test, y_test
 
 # Set up the devices
 _system_config = {"lineage_pinning_enabled": False}
@@ -116,8 +106,6 @@ params["objective"] = "linear"
 n_runs = 20
 rmse_list = []
 r2_list = []
-train_time_list = []
-test_time_list = []
 
 for i in range(n_runs):
     print("--- Run {}/{} ---".format(i + 1, n_runs))
@@ -150,7 +138,6 @@ results = {"rmse_list": rmse_list,
            "test_time_list": test_time_list
            }
 
-save_pickle(results,
-            "vflbench/results_{}/{}/fed_models/{}_{}.pkl".format(data_version, data_source, method_name, dataset_name))
+# Save results
 
 print("Finished!")

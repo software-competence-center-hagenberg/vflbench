@@ -19,7 +19,6 @@ from functools import partial
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import StandardScaler
 from sympy2jax import sympy2jax
-from utils import read_pickle, save_pickle, load_data
 
 # Extract arguments
 parser = argparse.ArgumentParser()
@@ -41,6 +40,7 @@ c_1, c_2 = sf.PYU("c_1"), sf.PYU("c_2")
 spu_config = sf.utils.testing.cluster_def(["c_1", "c_2"])
 spu = sf.SPU(spu_config)
 
+
 # spu_config["runtime_config"]["protocol"] = spu_lib.spu_pb2.CHEETAH
 # spu_config['runtime_config']['field'] = spu_lib.spu_pb2.FM64
 # spu_config['runtime_config']['fxp_fraction_bits'] = 18
@@ -48,17 +48,7 @@ spu = sf.SPU(spu_config)
 # print(spu_config)
 
 # Load data
-data_version = "v4"
-data_source = "natural_split_datasets"
-dataset_name = "hysys_iii"
-fed_data = load_data(data_version, data_source, dataset_name)
-cross_valid_data = fed_data["cross_valid_data"]
-n_clients = fed_data["num_parties"]
-task = fed_data["task"]
-method_name = "ppsr_sigmoid"
-
-Xs_train, y_train, Xs_test, y_test = cross_valid_data[0]
-
+# Read Xs_train, y_train, Xs_test, y_test
 
 # Scale data
 def scale_data(train_data, test_data):
@@ -255,6 +245,4 @@ results = {"acc_list": test_acc,
            "f1_list": test_f1
            }
 
-save_pickle(results,
-            "vflbench/results_{}/{}/fed_models/ppsr/{}_{}_run_{}.pkl".format(data_version, data_source, method_name,
-                                                                             dataset_name, run_no))
+# Save results

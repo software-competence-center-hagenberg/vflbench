@@ -11,7 +11,6 @@ from secretflow.security.privacy.mechanism.tensorflow import GaussianEmbeddingDP
 from secretflow.data import FedNdarray, PartitionWay
 from sklearn.metrics import accuracy_score, f1_score
 from sklearn.preprocessing import StandardScaler
-from utils import load_data, save_pickle
 
 # Set random seed
 RANDOM_SEED = 1309
@@ -23,16 +22,7 @@ c_1, c_2 = sf.PYU("c_1"), sf.PYU("c_2")
 spu = sf.SPU(sf.utils.testing.cluster_def(["c_1", "c_2"]))
 
 # Load data
-data_version = "v4"
-data_source = "natural_split_datasets"
-dataset_name = "hysys_iii"
-fed_data = load_data(data_version, data_source, dataset_name)
-cross_valid_data = fed_data["cross_valid_data"]
-n_clients = fed_data["num_parties"]
-task = fed_data["task"]
-method_name = "splitnn"
-
-Xs_train, y_train_pt, Xs_test, y_test_pt = cross_valid_data[0]
+# Read Xs_train, y_train, Xs_test, y_test
 
 # Prepare data
 m = Xs_train[0].shape[0]
@@ -170,8 +160,6 @@ sl_model = SLModel(
 n_runs = 20
 acc_list = []
 f1_list = []
-train_time_list = []
-test_time_list = []
 
 for i in range(n_runs):
     print("--- Run {}/{} ---".format(i + 1, n_runs))
@@ -208,7 +196,6 @@ results = {"acc_list": acc_list,
            "f1_list": f1_list
            }
 
-save_pickle(results,
-            "vflbench/results_{}/{}/fed_models/{}_{}.pkl".format(data_version, data_source, method_name, dataset_name))
+# Save results
 
 print("Finished!")

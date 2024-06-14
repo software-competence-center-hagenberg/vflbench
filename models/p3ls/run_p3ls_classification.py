@@ -17,16 +17,7 @@ random.seed(RANDOM_SEED)
 np.random.seed(RANDOM_SEED)
 
 # Load data
-data_version = "v4"
-data_source = "natural_split_datasets"
-dataset_name = "hysys_iii"
-fed_data = load_data(data_version, data_source, dataset_name)
-cross_valid_data = fed_data["cross_valid_data"]
-n_clients = fed_data["num_parties"]
-task = fed_data["task"]
-method_name = "p3ls"
-
-Xs_train, y_train, Xs_test, y_test = cross_valid_data[0]
+# Read Xs_train, y_train, Xs_test, y_test
 
 # Data holder 1
 X_1_train = Xs_train[0]
@@ -92,8 +83,6 @@ n_runs = 20
 threshold = 0.5
 acc_list = []
 f1_list = []
-train_time_list = []
-test_time_list = []
 
 for i in range(n_runs):
     print("--- Run {}/{} ---".format(i + 1, n_runs))
@@ -156,12 +145,9 @@ for i in range(n_runs):
     print("F1 score (test): {:.3f}".format(test_f1))
 
 results = {"acc_list": acc_list,
-           "f1_list": f1_list,
-           "train_time_list": train_time_list,
-           "test_time_list": test_time_list
+           "f1_list": f1_list
            }
 
-save_pickle(results,
-            "vflbench/results_{}/{}/fed_models/{}_{}.pkl".format(data_version, data_source, method_name, dataset_name))
+# Save results
 
 print("Finished!")

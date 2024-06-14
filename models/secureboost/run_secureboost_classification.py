@@ -8,10 +8,9 @@ import numpy as np
 import secretflow as sf
 from secretflow.data import FedNdarray, PartitionWay
 from secretflow.device.driver import reveal, wait
-from secretflow.ml.boost.sgb_v import Sgb, get_classic_XGB_params, get_classic_lightGBM_params
+from secretflow.ml.boost.sgb_v import Sgb, get_classic_XGB_params
 from secretflow.ml.boost.sgb_v.model import load_model
 from sklearn.metrics import accuracy_score, f1_score
-from utils import load_data, save_pickle
 
 # Set random seed
 RANDOM_SEED = 1309
@@ -19,16 +18,7 @@ random.seed(RANDOM_SEED)
 np.random.seed(RANDOM_SEED)
 
 # Load data
-data_version = "v4"
-data_source = "natural_split_datasets"
-dataset_name = "hysys_iii"
-fed_data = load_data(data_version, data_source, dataset_name)
-cross_valid_data = fed_data["cross_valid_data"]
-n_clients = fed_data["num_parties"]
-task = fed_data["task"]
-method_name = "secureboost"
-
-Xs_train, y_train_pt, Xs_test, y_test_pt = cross_valid_data[0]
+# Read Xs_train, y_train, Xs_test, y_test
 
 # Set up the devices
 _system_config = {"lineage_pinning_enabled": False}
@@ -116,25 +106,17 @@ params["objective"] = "logistic"
 n_runs = 20
 acc_list = []
 f1_list = []
-train_time_list = []
-test_time_list = []
 
 for i in range(n_runs):
     print("--- Run {}/{} ---".format(i + 1, n_runs))
 
     sgb = Sgb(heu)
-    train_st = timeit.default_timer()
     model = sgb.train(params, X_train, y_train)
-    train_et = timeit.default_timer()
-    train_time_list.append(train_et - train_st)
 
     # Model Evaluation
-    test_st = timeit.default_timer()
     scores_test_pred = model.predict(X_test)
     scores_test_pred_pt = reveal(scores_test_pred)  # Decrypt predictions
     y_test_pred_pt = np.where(scores_test_pred_pt > 0.5, 1, 0)
-    test_et = timeit.default_timer()
-    test_time_list.append(test_et - test_st)
 
     test_acc = accuracy_score(y_test_pt, y_test_pred_pt)
     test_f1 = f1_score(y_test_pt, y_test_pred_pt)
@@ -146,11 +128,8 @@ for i in range(n_runs):
 
 results = {"acc_list": acc_list,
            "f1_list": f1_list,
-           "train_time_list": train_time_list,
-           "test_time_list": test_time_list
            }
 
-save_pickle(results,
-            "vflbench/results_{}/{}/fed_models/{}_{}.pkl".format(data_version, data_source, method_name, dataset_name))
+# Save results
 
 print("Finished!")
